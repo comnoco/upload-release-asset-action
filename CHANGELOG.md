@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.4](https://github.com/actions/upload-release-asset/compare/v2.0.3...v2.0.4) (2023-01-31)
+
+
+### Bug Fixes
+
+* Test fixes ([d938b67](https://github.com/actions/upload-release-asset/commit/d938b67167e7cb1a071f5ac383cbbafe5444c533))
+
 ### [2.0.3](https://github.com/actions/upload-release-asset/compare/v2.0.2...v2.0.3) (2023-01-31)
 
 
