@@ -1,4 +1,4 @@
-name: 'Upload a Release Asset'
+name: 'Upload a file to a GitHub Release in a GitHub Action'
 description: 'Upload a release asset to an existing release in your repository'
 author: 'Comnoco Ltd'
 inputs:
@@ -12,11 +12,15 @@ inputs:
     description: 'The name of the asset you want to upload'
     required: true
   asset_content_type:
-    description: 'The content-type of the asset you want to upload. See the supported Media Types here: https://www.iana.org/assignments/media-types/media-types.xhtml for more information'
+    description:
+      'The content-type of the asset you want to upload. See the supported Media
+      Types here: https://www.iana.org/assignments/media-types/media-types.xhtml
+      for more information'
     required: true
 outputs:
   browser_download_url:
-    description: 'The URL users can navigate to in order to download the uploaded asset'
+    description:
+      'The URL users can navigate to in order to download the uploaded asset'
 runs:
   using: 'node12'
   main: 'dist/index.js'
