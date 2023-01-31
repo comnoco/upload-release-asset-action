@@ -1,13 +1,14 @@
 {
-  "name": "upload-release-asset",
-  "version": "1.0.0",
+  "name": "upload-release-asset-action",
+  "version": "2.0.0",
   "private": true,
   "description": "Upload a release asset to an existing GitHub Release",
   "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint 'src/**.js' --fix",
     "build": "ncc build src/main.js",
-    "precommit": "npm run build && git add dist/"
+    "lint": "eslint 'src/**.js' --fix",
+    "precommit": "npm run build && git add dist/",
+    "release": "standard-version"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,8 @@
   "dependencies": {
     "@actions/core": "1.10.0",
     "@actions/exec": "1.1.1",
-    "@actions/github": "5.1.1"
+    "@actions/github": "5.1.1",
+    "standard-version": "^9.5.0"
   },
   "devDependencies": {
     "@vercel/ncc": "0.36.1",
