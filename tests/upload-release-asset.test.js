@@ -1,9 +1,14 @@
 jest.mock('@actions/core');
 jest.mock('@actions/github');
-jest.mock('fs');
+
+jest.mock('fs', () => ({
+  promises: {
+    access: jest.fn(),
+  },
+}));
 
 const core = require('@actions/core');
-const { GitHub, context } = require('@actions/github');
+const { getOctokit, context } = require('@actions/github');
 const fs = require('fs');
 const run = require('../src/upload-release-asset');
 
@@ -15,12 +20,12 @@ describe('Upload Release Asset', () => {
   beforeEach(() => {
     uploadReleaseAsset = jest.fn().mockReturnValueOnce({
       data: {
-        browser_download_url: 'browserDownloadUrl'
-      }
+        browser_download_url: 'browserDownloadUrl',
+      },
     });
 
     fs.statSync = jest.fn().mockReturnValueOnce({
-      size: 527
+      size: 527,
     });
 
     content = Buffer.from('test content');
@@ -28,16 +33,16 @@ describe('Upload Release Asset', () => {
 
     context.repo = {
       owner: 'owner',
-      repo: 'repo'
+      repo: 'repo',
     };
 
     const github = {
       repos: {
-        uploadReleaseAsset
-      }
+        uploadReleaseAsset,
+      },
     };
 
-    GitHub.mockImplementation(() => github);
+    getOctokit.mockImplementation(() => github);
   });
 
   test('Upload release asset endpoint is called', async () => {
@@ -54,7 +59,7 @@ describe('Upload Release Asset', () => {
       url: 'upload_url',
       headers: { 'content-type': 'asset_content_type', 'content-length': 527 },
       name: 'asset_name',
-      file: content
+      file: content,
     });
   });
 
@@ -70,7 +75,11 @@ describe('Upload Release Asset', () => {
 
     await run();
 
-    expect(core.setOutput).toHaveBeenNthCalledWith(1, 'browser_download_url', 'browserDownloadUrl');
+    expect(core.setOutput).toHaveBeenNthCalledWith(
+      1,
+      'browser_download_url',
+      'browserDownloadUrl',
+    );
   });
 
   test('Action fails elegantly', async () => {
@@ -93,7 +102,9 @@ describe('Upload Release Asset', () => {
     await run();
 
     expect(uploadReleaseAsset).toHaveBeenCalled();
-    expect(core.setFailed).toHaveBeenCalledWith('Error uploading release asset');
+    expect(core.setFailed).toHaveBeenCalledWith(
+      'Error uploading release asset',
+    );
     expect(core.setOutput).toHaveBeenCalledTimes(0);
   });
 });
